@@ -194,12 +194,13 @@ def run_test():
         valid = client.verify_session()
         if valid:
             print("   ✅ LinkedIn Session: CONNECTED & AUTHENTICATED")
+            print("\n✅ All connectivity checks passed!")
         else:
             print("   ❌ LinkedIn Session: FAILED")
+            print("\n❌ Connectivity check failed: Please update your LINKEDIN_LI_AT cookie in .env.")
+            sys.exit(1)
     finally:
         client.close()
-
-    print("\n✅ All connectivity checks passed!")
 
 
 def print_status():
