@@ -61,6 +61,11 @@ class LinkedInClient:
         ])
 
         self.page = self.context.new_page()
+        try:
+            from playwright_stealth import Stealth
+            Stealth().apply_stealth_sync(self.page)
+        except Exception:
+            pass
 
     def close(self):
         """Closes browser and playwright context safely."""
@@ -82,24 +87,39 @@ class LinkedInClient:
         """Verifies if the li_at cookie successfully authenticated."""
         print("🔍 Verifying LinkedIn authentication session...")
         try:
-            self.page.goto("https://www.linkedin.com/feed/", timeout=45000, wait_until="domcontentloaded")
-            self._random_delay(3.0, 5.0)
+            self.page.goto("https://www.linkedin.com/feed/", timeout=25000, wait_until="domcontentloaded")
+            self._random_delay(2.5, 4.0)
 
             curr_url = self.page.url
-            if "login" in curr_url or "checkpoint" in curr_url:
-                print("❌ Session invalid: redirected to login/checkpoint. Check your LINKEDIN_LI_AT cookie.")
+            if any(k in curr_url.lower() for k in ["login", "checkpoint", "authwall", "uas/"]):
+                print("\n❌ Session Invalid: LinkedIn redirected to login/checkpoint.")
+                print("💡 Your LINKEDIN_LI_AT cookie is expired or was logged out.")
+                print("   Please grab a fresh 'li_at' cookie from Chrome and update your .env file.\n")
                 return False
 
-            # Check if global navigation bar or search bar exists
-            nav = self.page.locator("nav.global-nav, input.search-global-typeahead__input, div.feed-shared-update-v2")
-            if nav.count() > 0 or "feed" in curr_url:
+            # Check if authenticated elements actually exist on the page
+            nav = self.page.locator("nav.global-nav, input.search-global-typeahead__input, div.feed-shared-update-v2, img.global-nav__me-photo")
+            if nav.count() > 0:
                 print("✅ LinkedIn authentication verified successfully!")
                 return True
 
+            # If no nav element found and on feed
+            if "feed" in curr_url.lower() and "login" not in curr_url.lower():
+                print("✅ LinkedIn feed reached successfully!")
+                return True
+
             print(f"⚠️ Page loaded ({curr_url}), but standard feed navigation was not found.")
-            return True
+            return False
         except Exception as e:
-            print(f"❌ Error verifying session: {e}")
+            err_msg = str(e)
+            if "ERR_TOO_MANY_REDIRECTS" in err_msg:
+                print("\n❌ Session Error: net::ERR_TOO_MANY_REDIRECTS")
+                print("💡 LinkedIn rejected the session cookie. This happens when:")
+                print("   1. You logged out of LinkedIn in your browser (which revokes the cookie).")
+                print("   2. The 'li_at' cookie value was truncated or expired.")
+                print("   👉 Fix: Log in to linkedin.com in Chrome, copy the fresh 'li_at' cookie into .env, and try again.\n")
+            else:
+                print(f"❌ Error verifying session: {e}")
             return False
 
     def get_member_recent_posts(self, profile_url: str, max_posts: int = 2) -> List[Dict[str, Any]]:
