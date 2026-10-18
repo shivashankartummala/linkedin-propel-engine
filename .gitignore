@@ -1,0 +1,21 @@
+# Environments
+.env
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+
+# State & Databases
+state.json
+*.db
+*.sqlite
+
+# Playwright / Browsers
+.playwright/
+downloads/
+screenshots/

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Member 1",
+    "profile_url": "https://www.linkedin.com/in/sample-member-1/"
+  },
+  {
+    "name": "Member 2",
+    "profile_url": "https://www.linkedin.com/in/sample-member-2/"
+  },
+  {
+    "name": "Member 3",
+    "profile_url": "https://www.linkedin.com/in/sample-member-3/"
+  },
+  {
+    "name": "Member 4",
+    "profile_url": "https://www.linkedin.com/in/sample-member-4/"
+  },
+  {
+    "name": "Member 5",
+    "profile_url": "https://www.linkedin.com/in/sample-member-5/"
+  }
+]
