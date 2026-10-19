@@ -1,22 +1,25 @@
-[
-  {
-    "name": "MadhanVadlamudi",
-    "profile_url": "https://www.linkedin.com/in/madhanvadlamudi/"
-  },
-  {
-    "name": "SravanAnanthula",
-    "profile_url": "https://www.linkedin.com/in/sravanananthula/"
-  },
-  {
-    "name": "FedericoCiucci",
-    "profile_url": "https://www.linkedin.com/in/fciucci/"
-  },
-  {
-    "name": "JeffreyFunk",
-    "profile_url": "https://www.linkedin.com/in/dr-jeffrey-funk-a979435/"
-  },
-  {
-    "name": "MichaelLee",
-    "profile_url": "https://www.linkedin.com/in/michael-lee-4049593/"
-  }
-]
+{
+  "my_profile_url": "https://www.linkedin.com/in/sivasankartummala/",
+  "members": [
+    {
+      "name": "Madhan Vadlamudi",
+      "profile_url": "https://www.linkedin.com/in/madhanvadlamudi/"
+    },
+    {
+      "name": "Sravan Ananthula",
+      "profile_url": "https://www.linkedin.com/in/sravanananthula/"
+    },
+    {
+      "name": "Federico Ciucci",
+      "profile_url": "https://www.linkedin.com/in/fciucci/"
+    },
+    {
+      "name": "Jeffrey Funk",
+      "profile_url": "https://www.linkedin.com/in/dr-jeffrey-funk-a979435/"
+    },
+    {
+      "name": "Michael Lee",
+      "profile_url": "https://www.linkedin.com/in/michael-lee-4049593/"
+    }
+  ]
+}
