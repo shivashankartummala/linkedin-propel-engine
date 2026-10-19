@@ -1,54 +1,78 @@
 ---
 name: linkedin-propel-engine
 description: >-
-  Copilot engine for mutual engagement pods on LinkedIn. Safely polls pod member activity,
-  drafts 3 distinct 12-20 word comment angles, and generates frictionless 1-Click Action Cards
-  in chat (Muse / WhatsApp / Telegram) for instant human-in-the-loop engagement.
+  Copilot engine for mutual engagement pods on LinkedIn for Metamuse. Polls pod members'
+  recent activity using Muse's authenticated browser session, drafts 3 distinct 12-20 word
+  comments, and delivers 1-Click Action Cards to the Muse chat for instant copy-paste engagement.
 ---
 
-# LinkedIn Propel Engine (Copilot Edition)
+# LinkedIn Propel Engine (Muse Copilot Edition)
 
-The **LinkedIn Propel Engine** is a 100% safe, ban-free engagement copilot designed for a private circle of 15–20 active LinkedIn creators. 
+The **LinkedIn Propel Engine** is designed to run seamlessly inside **Metamuse**. 
 
-Instead of risky headless browser bots that trigger LinkedIn security checkpoints and logouts, Propel Engine acts as an **intelligent assistant**: it polls your pod's latest posts, drafts **3 razor-sharp 12–20 word comments**, and surfaces them as **1-Click Action Cards** directly in your chat.
+Because you have logged in to LinkedIn once via Muse's browser session, Muse holds the authenticated session. Muse uses that session to safely poll your 15–20 pod members, pull today's posts, draft **3 distinct 12–20 word comment options**, and deliver them as **1-Click Action Cards** in the Muse chat.
 
 ---
 
-## ⚡ The 2-Click Workflow
+## ⚡ How Muse Executes the Workflow
 
-1. **Metamuse / Agent alerts you in chat**:
-   - Displays the author's name, post hook, and direct LinkedIn link.
-   - Generates 3 distinct 12–20 word comment angles (Pragmatic Architecture, Contrarian Realist, Socratic Question).
-2. **User takes 5 seconds to engage**:
-   - **Click 1**: Tap your favorite comment box (copies text instantly).
-   - **Click 2**: Tap the post link (opens LinkedIn in your real browser/app).
-   - **Click 3**: Paste and press Post!
+When instructed to *"Check pod posts"* or when triggered on a schedule (e.g. 4x a day):
 
-*Result: 100% genuine human interaction from real residential IPs, 0% ban risk, maximum algorithmic velocity.*
+1. **Read Pod Members**:
+   Muse reads the creator profiles from [`members.json`](./members.json).
+
+2. **Poll Recent Activity**:
+   Using its saved browser session, Muse visits each creator's recent activity:
+   `https://www.linkedin.com/in/{creator_slug}/recent-activity/all/`
+
+3. **Check for Fresh Posts (<24 Hours)**:
+   If a post was published today (and not already in `state.json`), Muse extracts:
+   - Post URL
+   - Author Name
+   - Post Text Content
+
+4. **Generate 1-Click Action Card**:
+   Muse calls the helper to generate the 3 distinct 12–20 word comment angles and format the card:
+   ```bash
+   ./run.sh card --author "Madhan Vadlamudi" --url "https://www.linkedin.com/feed/update/..." --text "..."
+   ```
+
+5. **Deliver to Chat**:
+   Muse posts the 1-Click Action Card into the chat window.
+
+---
+
+## 📱 User 2-Click Action Loop
+
+When the card appears in Muse chat:
+1. **Tap to Copy**: Tap on any of the 3 monospace comment boxes (copies to your clipboard instantly).
+2. **Tap to Open**: Tap the post link (opens the post in your personal browser or mobile app).
+3. **Paste & Submit**: Hit post!
+
+*Takes 5 to 10 seconds. 100% human-verified and safe.*
 
 ---
 
 ## 🛠 Commands
 
 ```bash
-# 1. Poll all pod members and generate 1-Click Action Cards for today's posts
+# 1. Generate 1-Click Action Card from scraped post text
+./run.sh card --author "Madhan Vadlamudi" --url "https://..." --text "..."
+
+# 2. On-demand: Generate comments for any single post URL
+./run.sh draft --url "https://www.linkedin.com/feed/update/..."
+
+# 3. Sweep all members (if running with local Chrome)
 ./run.sh poll
 
-# 2. On-demand: Draft 3 comment options for any post link dropped in chat
-./run.sh draft --url "https://www.linkedin.com/feed/update/urn:li:activity:..."
-
-# 3. View today's surfaced cards and pod metrics
+# 4. View today's status
 ./run.sh status
 ```
 
 ---
 
-## 🛡 Commenting Rules Enforced
+## 💡 The 3 Comment Angles (Strictly 12–20 Words)
 
-1. **Length**: Strictly 12 to 20 words (mobile-optimized, high algorithmic dwell time).
-2. **Anti-Platitude Codex**: Zero generic filler (*"Great post"*, *"Thanks for sharing"*, *"Kudos"*, *"Totally agree"*).
-3. **Strictly Zero Parentheses**: Never includes `(` or `)`.
-4. **Three Copywriting Angles**:
-   - **Angle 1 (Pragmatic / Architecture)**: Production reality, scaling trade-offs, engineering discipline.
-   - **Angle 2 (Contrarian / Realist)**: Counter-perspective puncturing corporate/AI hype.
-   - **Angle 3 (Socratic Question)**: Discussion question that invites the author to reply.
+1. **Pragmatic Architecture**: Highlights an operational trade-off, execution reality, or production constraint.
+2. **Contrarian Realist**: Punctures corporate/AI hype with grounded engineering logic.
+3. **Socratic Question**: Asks a sharp, nuanced question that prompts the author to reply (multiplying post dwell time).

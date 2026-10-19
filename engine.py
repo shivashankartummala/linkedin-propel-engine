@@ -139,6 +139,36 @@ def run_draft_single(post_url: str, custom_text: str = None):
     print("\n" + card + "\n")
 
 
+def run_card_generation(author: str, url: str, text: str, time_str: str = "Today"):
+    """
+    Direct helper for Muse: Takes scraped post text, generates 3 distinct
+    12-20 word comments, records in state, and outputs the 1-Click Action Card.
+    """
+    config = load_config()
+    generator = CommentGenerator(config)
+    state = StateManager()
+
+    # Record in state
+    state.record_comment(
+        post_id=url,
+        post_url=url,
+        member_url=url,
+        member_name=author,
+        post_snippet=text,
+        comment_text=text[:100],
+    )
+
+    options = generator.generate_options(text, author_name=author)
+    card = format_action_card(
+        author_name=author,
+        post_url=url,
+        post_snippet=text,
+        time_str=time_str,
+        comment_options=options,
+    )
+    print("\n" + card + "\n")
+
+
 def print_status():
     """Prints status of state.json and today's activity."""
     state = StateManager()
@@ -165,6 +195,13 @@ if __name__ == "__main__":
     draft_p.add_argument("--url", required=True, help="LinkedIn post URL")
     draft_p.add_argument("--text", default=None, help="Optional post content text")
 
+    # card command (Direct helper for Muse agent)
+    card_p = subparsers.add_parser("card", help="Generate 1-Click Action Card from scraped post text")
+    card_p.add_argument("--author", default="Colleague", help="Author name")
+    card_p.add_argument("--url", required=True, help="LinkedIn post URL")
+    card_p.add_argument("--text", required=True, help="Post content text")
+    card_p.add_argument("--time", default="Today", help="Relative timestamp")
+
     # status command
     subparsers.add_parser("status", help="Show today's digest statistics")
 
@@ -174,6 +211,8 @@ if __name__ == "__main__":
         run_poll()
     elif args.subcommand == "draft":
         run_draft_single(args.url, custom_text=args.text)
+    elif args.subcommand == "card":
+        run_card_generation(args.author, args.url, args.text, time_str=args.time)
     elif args.subcommand == "status":
         print_status()
     else:

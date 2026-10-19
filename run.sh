@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# LinkedIn Propel Engine (Copilot Edition) - Run Wrapper
+# LinkedIn Propel Engine (Muse Copilot Edition) - Run Wrapper
 # Usage:
 #   ./run.sh                  -> Polls pod members and outputs 1-Click Action Cards
-#   ./run.sh poll             -> Polls pod members and outputs 1-Click Action Cards
+#   ./run.sh card ...         -> Generates 1-Click Action Card from scraped post text
 #   ./run.sh draft --url <url> -> Drafts 3 comment options for any post on demand
 #   ./run.sh status           -> Displays today's digest statistics
 # ==============================================================================
