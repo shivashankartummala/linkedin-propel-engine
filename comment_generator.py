@@ -1,34 +1,50 @@
 """
-Comment generation engine for LinkedIn Propel Engine.
-Generates thoughtful, human, anti-platitude 1-2 line comments and conversational replies.
-Supports OpenAI, Groq, OpenRouter, Gemini, and other OpenAI-compatible endpoints.
+Comment generation engine for LinkedIn Propel Engine (Copilot Edition).
+Generates 3 distinct, razor-sharp 12-20 word comment options with zero generic praise and zero parentheses.
 """
 
 import re
+import json
+from typing import List, Dict
 from openai import OpenAI
 from config import Config
 
-POST_COMMENT_SYSTEM_PROMPT = """
-You are a senior tech leader commenting on a peer's LinkedIn post.
-Write a razor-sharp, insightful comment.
+PROMPT_TEMPLATE = """
+You are an experienced tech leader writing thoughtful LinkedIn comments on a colleague's post.
+Generate exactly 3 distinct comment options for the user to choose from.
 
-RULES:
-1. LENGTH: Exactly 12 to 20 words. No more, no less.
-2. TONE: Crisp, pragmatic, peer-to-peer. Zero fluff.
+RULES FOR ALL COMMENTS:
+1. LENGTH: Exactly 12 to 20 words each. Never fewer than 12, never more than 20.
+2. TONE: Crisp, grounded, pragmatic, and peer-to-peer. Zero fluff.
 3. STRICTLY NO GENERIC PRAISE: Never use 'Great post', 'Thanks for sharing', 'Kudos', 'Totally agree', 'Spot on', or 'Well said'.
 4. STRICTLY NO PARENTHESES: Do not use '(' or ')' anywhere.
-5. Highlight one practical nuance, engineering reality, or thoughtful counter-question.
+5. Provide 3 distinct copywriting angles:
+   - Angle 1 (Pragmatic / Architecture): Points out an operational reality or production trade-off.
+   - Angle 2 (Contrarian / Realist): Offers an intelligent counter-perspective puncturing corporate/AI hype.
+   - Angle 3 (Socratic / Discussion Hook): Asks a sharp, nuanced question that compels the author to reply.
+
+Output ONLY a valid JSON list of 3 objects in this format:
+[
+  {"angle": "Pragmatic Architecture", "text": "12 to 20 word comment here..."},
+  {"angle": "Contrarian Realist", "text": "12 to 20 word comment here..."},
+  {"angle": "Socratic Question", "text": "12 to 20 word comment here..."}
+]
 """
 
-THREAD_REPLY_SYSTEM_PROMPT = """
-You are replying to a colleague who responded to your LinkedIn comment.
-Write a 1-sentence quick conversational reply.
-
-RULES:
-1. LENGTH: Exactly 8 to 15 words.
-2. TONE: Natural, peer-to-peer.
-3. NO PARENTHESES: Do not use '(' or ')'.
-"""
+FALLBACK_OPTIONS = [
+    {
+        "angle": "Pragmatic Architecture",
+        "text": "Solid operational point here. Scaling this in production always comes down to disciplined team execution and clear ownership.",
+    },
+    {
+        "angle": "Contrarian Realist",
+        "text": "The real bottleneck was never raw execution speed - it has always been reviewing and maintaining untrusted diffs.",
+    },
+    {
+        "angle": "Socratic Question",
+        "text": "How is your team handling boundary validation when unexpected edge cases hit production under peak traffic?",
+    },
+]
 
 
 class CommentGenerator:
@@ -48,60 +64,33 @@ class CommentGenerator:
         text = re.sub(r"\s+", " ", text).strip()
         return text
 
-    def generate_comment(self, post_text: str, author_name: str = "") -> str:
-        """Generates a 12-20 word crisp comment with minimal token usage."""
-        # Truncate post to first 400 chars (hook & thesis) to save input tokens
+    def generate_options(self, post_text: str, author_name: str = "") -> List[Dict[str, str]]:
+        """Generates 3 distinct 12-20 word comment options."""
         truncated_post = post_text[:400].strip()
-        user_prompt = f"Author: {author_name or 'Peer'}\nPost: {truncated_post}\n\n12-20 word comment:"
-        
+        user_prompt = f"Author: {author_name or 'Colleague'}\nPost: {truncated_post}\n\nGenerate 3 JSON comment options:"
+
         if not self.client:
-            return "Solid architecture point here. Scaling this in production always comes down to disciplined team execution."
+            return FALLBACK_OPTIONS
 
         try:
             response = self.client.chat.completions.create(
                 model=self.config.llm_model,
                 messages=[
-                    {"role": "system", "content": POST_COMMENT_SYSTEM_PROMPT.strip()},
+                    {"role": "system", "content": PROMPT_TEMPLATE.strip()},
                     {"role": "user", "content": user_prompt},
                 ],
                 temperature=0.7,
-                max_tokens=35,
+                max_tokens=150,
             )
-            raw_comment = response.choices[0].message.content or ""
-            return self._clean_text(raw_comment)
+            raw = response.choices[0].message.content or ""
+            # Extract JSON block
+            json_match = re.search(r"\[\s*\{.*\}\s*\]", raw, re.DOTALL)
+            if json_match:
+                data = json.loads(json_match.group(0))
+                for item in data:
+                    item["text"] = self._clean_text(item.get("text", ""))
+                return data[:3]
         except Exception as e:
-            print(f"⚠️ LLM generation error: {e}")
-            return "Solid operational point here. Scaling this in production always comes down to disciplined team execution."
+            print(f"⚠️ LLM generation warning: {e}")
 
-    def generate_reply(
-        self,
-        post_text: str,
-        our_comment: str,
-        author_reply: str,
-        replier_name: str = "",
-    ) -> str:
-        """Generates an 8-15 word follow-up reply in a thread with minimal tokens."""
-        if not self.client:
-            return "Appreciate the perspective - totally aligns with what we have seen in production."
-
-        user_prompt = (
-            f"Topic: {post_text[:150]}\n"
-            f"Our Comment: {our_comment}\n"
-            f"Their Reply ({replier_name or 'Author'}): {author_reply[:150]}\n\n"
-            f"8-15 word reply:"
-        )
-        try:
-            response = self.client.chat.completions.create(
-                model=self.config.llm_model,
-                messages=[
-                    {"role": "system", "content": THREAD_REPLY_SYSTEM_PROMPT.strip()},
-                    {"role": "user", "content": user_prompt},
-                ],
-                temperature=0.7,
-                max_tokens=25,
-            )
-            raw_reply = response.choices[0].message.content or ""
-            return self._clean_text(raw_reply)
-        except Exception as e:
-            print(f"⚠️ LLM reply generation error: {e}")
-            return "Appreciate the perspective - totally aligns with what we have seen in production."
+        return FALLBACK_OPTIONS

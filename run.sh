@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# LinkedIn Propel Engine - Run Wrapper
+# LinkedIn Propel Engine (Copilot Edition) - Run Wrapper
 # Usage:
-#   ./run.sh                  -> Runs standard batch sweep
-#   ./run.sh dry-run          -> Simulates sweep without submitting comments
-#   ./run.sh pending          -> Finds fresh posts & replies (Metamuse Agent-Native)
-#   ./run.sh post-comment ... -> Submits a comment directly from Cloud Agent
-#   ./run.sh post-reply ...   -> Submits a thread reply directly from Cloud Agent
-#   ./run.sh test             -> Runs diagnostics on LinkedIn session
-#   ./run.sh status           -> Shows today's metrics and processed posts
-#   ./run.sh daemon           -> Runs 4x daily scheduled background loop
+#   ./run.sh                  -> Polls pod members and outputs 1-Click Action Cards
+#   ./run.sh poll             -> Polls pod members and outputs 1-Click Action Cards
+#   ./run.sh draft --url <url> -> Drafts 3 comment options for any post on demand
+#   ./run.sh status           -> Displays today's digest statistics
 # ==============================================================================
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
