@@ -104,54 +104,93 @@ def fetch_latest_post_via_chrome(profile_url: str) -> Optional[Dict[str, Any]]:
 
 def fetch_single_post_content(post_url: str) -> Optional[Dict[str, Any]]:
     """
-    Extracts post content from a direct LinkedIn post URL via Chrome tab.
+    Extracts post content from a direct LinkedIn post URL.
+    Works universally on Linux cloud containers (like Metamuse) and Mac without login or cookies.
     """
-    js_code = """(function() {
-        try {
-            var bodyText = document.body.innerText;
-            var textEl = document.querySelector('.feed-shared-update-v2__commentary, .update-components-text, .break-words');
-            var text = textEl ? textEl.innerText.trim() : bodyText.substring(0, 400);
-
-            var authorEl = document.querySelector('.update-components-actor__name, .feed-shared-actor__name, h1');
-            var author = authorEl ? authorEl.innerText.trim() : 'Colleague';
-
-            return JSON.stringify({
-                status: 'ok',
-                author: author,
-                text: text,
-                url: window.location.href
-            });
-        } catch(e) {
-            return JSON.stringify({status: 'error', error: e.message});
-        }
-    })()"""
-
-    tmp_js = "/tmp/propel_read_single_post.js"
-    with open(tmp_js, "w", encoding="utf-8") as f:
-        f.write(js_code)
-
-    applescript = f'''
-    set jsCode to read POSIX file "{tmp_js}" as «class utf8»
-    tell application "Google Chrome"
-        tell front window
-            set newTab to make new tab with properties {{URL:"{post_url}"}}
-        end tell
-        delay 4
-        set scrapeResult to ""
-        tell newTab
-            set scrapeResult to execute javascript jsCode
-            close
-        end tell
-        return scrapeResult
-    end tell
-    '''
-
+    # 1. Try headless Playwright (Works in Linux, Cloud Containers, Metamuse, Mac)
     try:
-        p = subprocess.run(["osascript", "-e", applescript], capture_output=True, text=True, timeout=18)
-        out = p.stdout.strip()
-        if out and out.startswith("{"):
-            return json.loads(out)
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser = p.chromium.launch(
+                headless=True,
+                args=["--disable-blink-features=AutomationControlled", "--no-sandbox"]
+            )
+            page = browser.new_page()
+            page.goto(post_url, timeout=18000, wait_until="domcontentloaded")
+
+            # Extract author
+            author_el = page.locator("h1, div.update-components-actor__name, span.feed-shared-actor__name, span.actor-name")
+            author = author_el.first.inner_text().strip() if author_el.count() > 0 else "Colleague"
+
+            # Extract post content
+            content_el = page.locator("article, div.feed-shared-update-v2__description, div.attributed-text-segment-list__container, div.update-components-text")
+            if content_el.count() > 0:
+                text = content_el.first.inner_text().strip()
+            else:
+                body = page.inner_text("body")
+                lines = [l.strip() for l in body.split("\n") if len(l.strip()) > 30 and "Agree & Join" not in l]
+                text = "\n".join(lines[:8])
+
+            browser.close()
+            if text and len(text) > 30:
+                return {
+                    "status": "ok",
+                    "author": author,
+                    "text": text,
+                    "url": post_url,
+                }
     except Exception as e:
-        print(f"⚠️ Single post fetch error: {e}")
+        print(f"ℹ️ Playwright cloud fetch note: {e}")
+
+    # 2. Fallback: Google Chrome tab on macOS (if running locally)
+    if is_chrome_running():
+        js_code = """(function() {
+            try {
+                var bodyText = document.body.innerText;
+                var textEl = document.querySelector('.feed-shared-update-v2__commentary, .update-components-text, .break-words');
+                var text = textEl ? textEl.innerText.trim() : bodyText.substring(0, 400);
+
+                var authorEl = document.querySelector('.update-components-actor__name, .feed-shared-actor__name, h1');
+                var author = authorEl ? authorEl.innerText.trim() : 'Colleague';
+
+                return JSON.stringify({
+                    status: 'ok',
+                    author: author,
+                    text: text,
+                    url: window.location.href
+                });
+            } catch(e) {
+                return JSON.stringify({status: 'error', error: e.message});
+            }
+        })()"""
+
+        tmp_js = "/tmp/propel_read_single_post.js"
+        with open(tmp_js, "w", encoding="utf-8") as f:
+            f.write(js_code)
+
+        applescript = f'''
+        set jsCode to read POSIX file "{tmp_js}" as «class utf8»
+        tell application "Google Chrome"
+            tell front window
+                set newTab to make new tab with properties {{URL:"{post_url}"}}
+            end tell
+            delay 4
+            set scrapeResult to ""
+            tell newTab
+                set scrapeResult to execute javascript jsCode
+                close
+            end tell
+            return scrapeResult
+        end tell
+        '''
+
+        try:
+            p = subprocess.run(["osascript", "-e", applescript], capture_output=True, text=True, timeout=18)
+            out = p.stdout.strip()
+            if out and out.startswith("{"):
+                return json.loads(out)
+        except Exception as e:
+            print(f"⚠️ Chrome fallback error: {e}")
 
     return None
+
