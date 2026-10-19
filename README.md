@@ -26,9 +26,13 @@ Instead of risky headless browser bots that get accounts flagged, Propel Engine 
 
 1. **Import this repository** into your Metamuse agent:
    `https://github.com/shivashankartummala/linkedin-propel-engine`
-2. **Log in to LinkedIn once** via Muse's interactive browser session (Muse saves this authenticated profile permanently).
+2. **Prerequisite: One-Time Interactive Login**:
+   - Open Muse's browser viewer and go to `https://www.linkedin.com`.
+   - Log in with your LinkedIn account (complete any 2FA/SMS verification).
+   - Once your LinkedIn home feed loads, hand control back to Muse.
+   - Muse saves this persistent session permanently. The skill has an automatic gate check that verifies this session before running.
 3. **Customize `members.json`**:
-   - Set `"my_profile_url"` to your own profile URL.
+   - Set `"my_profile_url"` to your own profile URL (so Muse never comments on your own posts).
    - Add your 15–20 pod members to the `"members"` array.
 
 ---
