@@ -1,25 +1,25 @@
 {
-  "my_profile_url": "https://www.linkedin.com/in/sivasankartummala/",
+  "my_profile_url": "<MY_LINKEDIN_PROFILE_URL>",
   "members": [
     {
-      "name": "Madhan Vadlamudi",
-      "profile_url": "https://www.linkedin.com/in/madhanvadlamudi/"
+      "name": "<MEMBER_1_NAME>",
+      "profile_url": "<MEMBER_1_PROFILE_URL>"
     },
     {
-      "name": "Sravan Ananthula",
-      "profile_url": "https://www.linkedin.com/in/sravanananthula/"
+      "name": "<MEMBER_2_NAME>",
+      "profile_url": "<MEMBER_2_PROFILE_URL>"
     },
     {
-      "name": "Federico Ciucci",
-      "profile_url": "https://www.linkedin.com/in/fciucci/"
+      "name": "<MEMBER_3_NAME>",
+      "profile_url": "<MEMBER_3_PROFILE_URL>"
     },
     {
-      "name": "Jeffrey Funk",
-      "profile_url": "https://www.linkedin.com/in/dr-jeffrey-funk-a979435/"
+      "name": "<MEMBER_4_NAME>",
+      "profile_url": "<MEMBER_4_PROFILE_URL>"
     },
     {
-      "name": "Michael Lee",
-      "profile_url": "https://www.linkedin.com/in/michael-lee-4049593/"
+      "name": "<MEMBER_5_NAME>",
+      "profile_url": "<MEMBER_5_PROFILE_URL>"
     }
   ]
 }
