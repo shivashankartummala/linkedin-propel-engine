@@ -21,18 +21,20 @@ Before running any sweeps or reading creator profiles, you MUST verify that your
    - Check if you are on the authenticated feed (search bar, nav bar, or feed updates are visible).
 
 2. **If NOT Logged In (First-Time Setup or Expired Session)**:
-   - DO NOT attempt to scrape or proceed with the sweep.
-   - Halt execution immediately and send this message to the user:
-     > 🛑 **One-Time LinkedIn Login Required in Muse**  
-     > Muse needs an active LinkedIn session to safely read pod posts on your behalf.  
+   - Immediately launch an interactive browser session and navigate to `https://www.linkedin.com/login`.
+   - Hand over browser control to the user and guide them directly in the chat:
+     > 🌐 **Interactive LinkedIn Login Required**  
+     > I have launched a browser session at `https://www.linkedin.com/login` for you.  
      >   
      > **Please complete these quick steps:**  
-     > 1. In Muse, open an interactive browser session and navigate to `https://www.linkedin.com`.  
-     > 2. Log in with your LinkedIn account (and complete any 2FA/SMS verification).  
-     > 3. Confirm that your LinkedIn home feed loads successfully.  
-     > 4. Hand control back to Muse so Muse can save this browser session permanently.  
+     > 1. Take over the browser window on your screen.  
+     > 2. Log in with your LinkedIn credentials (and complete any 2FA/SMS challenge).  
+     > 3. Verify that your home feed (`https://www.linkedin.com/feed/`) loads completely.  
+     > 4. Hand control of the browser back to me.  
      >   
-     > Once completed, simply tell me: **"Run Propel sweep"** and I will begin monitoring your pod!
+     > Once you hand control back, I will save your persistent session permanently and immediately proceed with the pod sweep!
+   - Wait for the user to complete the login and return control.
+   - Once control is returned, confirm the feed is authenticated, save the persistent session, and proceed immediately to the Autonomous Execution Workflow.
 
 3. **If Authenticated**:
    - Proceed immediately to the Autonomous Execution Workflow below.
