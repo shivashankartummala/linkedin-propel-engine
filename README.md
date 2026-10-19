@@ -1,24 +1,37 @@
 # 🚀 LinkedIn Propel Engine (Muse Copilot Edition)
 
-> **Zero-Risk, 1-Click Mutual Engagement Copilot for Creators & Leaders**
+> **Zero-Risk, 1-Reply Mutual Engagement Copilot for Creators & Leaders**
 
 LinkedIn Propel Engine is an autonomous engagement skill built for a private circle of 15–20 active LinkedIn creators running inside **Metamuse**.
 
-Instead of risky headless browser bots that get accounts flagged, Propel Engine acts as your **personal engagement copilot**: 
+Instead of unpredictable auto-bots, Propel Engine implements a **Human-in-the-Loop 1-Reply Approval Model**:
 1. Muse monitors your pod members' latest posts using its authenticated browser session.
 2. Muse crafts **3 razor-sharp 12–20 word comment options** (strictly zero emojis, zero generic praise).
-3. Muse delivers them directly into the chat as **1-Click Action Cards**.
-4. You tap the comment box to copy, tap the link to open the post in your real browser or mobile app, paste, and post!
+3. Muse delivers the options directly into your chat.
+4. You simply reply **`POST 1`**, **`POST 2`**, or **`POST 3`** (or type a custom edit).
+5. Muse executes the browser submission using a **strict human-mimicking DOM protocol** (natural dwell time, reading scroll, keystroke jitter, and proofreading pauses).
 
 ---
 
-## ⚡ The 10-Second Engagement Loop
+## ⚡ The 1-Reply Engagement Loop
 
 ```
 1. Muse detects fresh post from pod member (<24h)
-2. Muse sends 1-Click Action Card to chat
-3. You tap comment to copy ➔ tap link to open post ➔ paste & submit!
+2. Muse sends 3 comment options to chat
+3. You reply: "POST 1" in chat
+4. Muse opens browser, simulates reading delay, types with keystroke jitter, and submits!
 ```
+
+---
+
+## 🤖 The Human-Mimicking Browser Protocol
+
+When you approve a comment via chat, Muse executes with strict anti-bot protections:
+1. **Dwell & Reading Simulation**: Pauses 15–25 seconds after page load with natural vertical scrolling to simulate reading.
+2. **Focus Delay**: Clicks comment box and pauses 2–3 seconds before typing.
+3. **Keystroke Jitter**: Types character by character with 25–50ms delays and natural micro-pauses between words (no instant string injection).
+4. **Proofreading Pause**: Waits 3–5 seconds after typing before moving to the submit button.
+5. **Post Verification**: Waits 4–6 seconds after clicking submit to confirm the comment rendered in the feed.
 
 ---
 
@@ -49,7 +62,7 @@ Instead of risky headless browser bots that get accounts flagged, Propel Engine 
 
 ---
 
-## 📋 Example Action Card
+## 📋 Example Chat Interaction
 
 ```markdown
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -58,10 +71,9 @@ Instead of risky headless browser bots that get accounts flagged, Propel Engine 
 📌 Post Hook / Topic:
 "Breaking down monolithic architectures too early creates network overhead..."
 
-🔗 [👉 Tap Here to Open Post on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7251...)
+🔗 [👉 View Post on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7251...)
 
-💡 1-Click Comment Options (12–20 Words | No Emojis):
-(Tap any comment box below to copy, click the link above, paste & post!)
+💡 Proposed Comment Options (12–20 Words | No Emojis):
 
 1️⃣ Pragmatic Architecture [18 words]
 Solid operational point here. Scaling this in production always comes down to disciplined team execution and clear ownership.
@@ -72,12 +84,12 @@ The real bottleneck was never raw execution speed - it has always been reviewing
 3️⃣ Socratic Question [16 words]
 How is your team handling boundary validation when unexpected edge cases hit production under peak traffic?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👉 How to Publish:  
+• Reply 'POST 1', 'POST 2', or 'POST 3' (or type a custom edit) and I will submit it directly via browser!  
+• Or tap any box to copy and post manually.
 ```
 
----
-
-## 🤖 Instructing Muse to Run
-
-Give Muse this instruction or set it as a recurring scheduled task:
-
-> *"Check pod posts: Read `members.json`, check each member's recent activity using your saved LinkedIn browser session for posts published today, and output 1-Click Action Cards for any new posts found."*
+When you reply **`POST 1`**, Muse replies:
+> ✅ **Successfully published to Madhan Vadlamudi's post!**  
+> 💬 *"Solid operational point here. Scaling this in production always comes down to disciplined team execution and clear ownership."*  
+> 🔗 [Open Post on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7251...)
