@@ -4,21 +4,21 @@
 
 LinkedIn Propel Engine is an autonomous engagement skill built for a private circle of 15–20 active LinkedIn creators running inside **Metamuse**.
 
-Instead of unpredictable auto-bots, Propel Engine implements a **Human-in-the-Loop 1-Reply Approval Model**:
+Instead of unpredictable auto-bots, Propel Engine implements a **Human-in-the-Loop 1-Click / 1-Reply Approval Model**:
 1. Muse monitors your pod members' latest posts using its authenticated browser session.
 2. Muse crafts **3 razor-sharp 12–20 word comment options** (strictly zero emojis, zero generic praise).
-3. Muse delivers the options directly into your chat.
-4. You simply reply **`POST 1`**, **`POST 2`**, or **`POST 3`** (or type a custom edit).
+3. Muse delivers the options directly into your chat with **tappable approval buttons** (`muse.create_options`).
+4. You simply **tap a button** (e.g. `Lee: POST 2`) or reply **`POST 1`**, **`POST 2`**, or **`POST 3`** (or type a custom edit).
 5. Muse executes the browser submission using a **strict human-mimicking DOM protocol** (natural dwell time, reading scroll, keystroke jitter, and proofreading pauses).
 
 ---
 
-## ⚡ The 1-Reply Engagement Loop
+## ⚡ The 1-Click / 1-Reply Engagement Loop
 
 ```
 1. Muse detects fresh post from pod member (<24h)
-2. Muse sends 3 comment options to chat
-3. You reply: "POST 1" in chat
+2. Muse sends 3 comment options to chat + tappable buttons (muse.create_options)
+3. You tap the button: [Lee: POST 2] (or type "POST 1" in chat)
 4. Muse opens browser, simulates reading delay, types with keystroke jitter, and submits!
 ```
 
@@ -85,11 +85,11 @@ The real bottleneck was never raw execution speed - it has always been reviewing
 How is your team handling boundary validation when unexpected edge cases hit production under peak traffic?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 👉 How to Publish:  
-• Reply 'POST 1', 'POST 2', or 'POST 3' (or type a custom edit) and I will submit it directly via browser!  
-• Or tap any box to copy and post manually.
+• **Tap a button below** to post that comment instantly (one tap per comment).
+• Or reply `POST 1`, `POST 2`, or `POST 3` (e.g. `Lee: POST 2`), or type a custom edit.
 ```
 
-When you reply **`POST 1`**, Muse replies:
+When you tap **`Lee: POST 1`** (or reply **`POST 1`**), Muse replies:
 > ✅ **Successfully published to Madhan Vadlamudi's post!**  
 > 💬 *"Solid operational point here. Scaling this in production always comes down to disciplined team execution and clear ownership."*  
 > 🔗 [Open Post on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7251...)
