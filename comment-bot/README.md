@@ -4,23 +4,38 @@
 
 LinkedIn Propel Engine is an autonomous engagement skill built for a private circle of 15–20 active LinkedIn creators running inside **Metamuse**.
 
-Instead of unpredictable auto-bots, Propel Engine implements a **Human-in-the-Loop 1-Click / 1-Reply Approval Model**:
+Instead of unpredictable auto-bots, Propel Engine implements a **Human-in-the-Loop 1-Reply Approval Model**:
 1. Muse monitors your pod members' latest posts using its authenticated browser session.
 2. Muse crafts **3 razor-sharp 12–20 word comment options** (strictly zero emojis, zero generic praise).
-3. Muse delivers the options directly into your chat with **tappable approval buttons** (`muse.create_options`).
-4. You simply **tap a button** (e.g. `Lee: POST 2`) or reply **`POST 1`**, **`POST 2`**, or **`POST 3`** (or type a custom edit).
+3. Muse delivers the options directly into your chat.
+4. Each card arrives as its own chat message with **tappable `POST 1` / `POST 2` / `POST 3` buttons directly beneath it** — tap one to approve (or reply `POST 1` in text, or type a custom edit).
 5. Muse executes the browser submission using a **strict human-mimicking DOM protocol** (natural dwell time, reading scroll, keystroke jitter, and proofreading pauses).
 
 ---
 
-## ⚡ The 1-Click / 1-Reply Engagement Loop
+## ⚡ The 1-Reply Engagement Loop
 
 ```
 1. Muse detects fresh post from pod member (<24h)
-2. Muse sends 3 comment options to chat + tappable buttons (muse.create_options)
-3. You tap the button: [Lee: POST 2] (or type "POST 1" in chat)
+2. Muse sends a card with 3 comment options + tappable buttons beneath it
+3. You tap "POST 1" (or reply in text)
 4. Muse opens browser, simulates reading delay, types with keystroke jitter, and submits!
 ```
+
+---
+
+## 🪞 Self Mode: Never Miss a Comment on Your Own Posts
+
+Run **`run self sweep`** and Muse flips the lens:
+
+1. Muse scans **your own posts from the last 3 days** for comments you haven't replied to yet.
+2. For each unanswered comment, you get a **REPLY ALERT** card showing the commenter, their full comment, and **3 reply options** (12–20 words, same strict rules) from three reply angles:
+   - **1️⃣ Adds Depth**: A concrete detail, a number, or the reasoning behind your post.
+   - **2️⃣ Dry Wit**: A light, dry-humored acknowledgment in your voice — warm, never flattery.
+   - **3️⃣ Socratic Follow-up**: A question back to the commenter that keeps the thread alive.
+3. Tap the button beneath the card and Muse posts the reply **nested under that exact comment**, using the same human-mimicking protocol.
+
+Comments you wrote yourself and threads you already answered are skipped automatically.
 
 ---
 
@@ -85,11 +100,11 @@ The real bottleneck was never raw execution speed - it has always been reviewing
 How is your team handling boundary validation when unexpected edge cases hit production under peak traffic?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 👉 How to Publish:  
-• **Tap a button below** to post that comment instantly (one tap per comment).
-• Or reply `POST 1`, `POST 2`, or `POST 3` (e.g. `Lee: POST 2`), or type a custom edit.
+• Tap the 'POST 1', 'POST 2', or 'POST 3' button directly below this card and I will submit it via browser!  
+• Or reply 'POST 1', 'POST 2', or 'POST 3' (or type a custom edit).
 ```
 
-When you tap **`Lee: POST 1`** (or reply **`POST 1`**), Muse replies:
+When you reply **`POST 1`**, Muse replies:
 > ✅ **Successfully published to Madhan Vadlamudi's post!**  
 > 💬 *"Solid operational point here. Scaling this in production always comes down to disciplined team execution and clear ownership."*  
 > 🔗 [Open Post on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7251...)

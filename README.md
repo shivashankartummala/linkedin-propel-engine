@@ -19,7 +19,7 @@
             |        CO-AUTHOR BOT          |   |          COMMENT BOT          |
             |     (Inbound Authority)       |   |      (Outbound Velocity)      |
             +-------------------------------+   +-------------------------------+
-            | • Persona & Topic Parameterized|   | • Creator Pod Monitoring (<24h)|
+            | • Persona & Topic Parameterized|   | • Pod Mode (<24h) + Self Mode |
             | • Anti-AI Practitioner Voice  |   | • 3 Crisp Angles (12-20 words)|
             | • 4 Hand-Drawn Visual Themes  |   | • Strictly Zero Emojis/Fluff  |
             | • 5-Line Action CTA + SEO Tags|   | • 1-Click / 1-Reply Approval  |
@@ -72,8 +72,9 @@ linkedin-propel-engine/
 ---
 
 ### 2. Comment Bot (`comment-bot/`)
-- **Mission**: Monitors a private circle of 15–20 creators, identifies fresh posts (<24h), drafts 3 concise comment options, and submits upon your 1-reply approval.
+- **Mission**: Dual-mode engagement engine that sweeps your creator pod for fresh posts (<24h) and monitors your own posts (<72h) for unanswered comments to maintain algorithmic velocity.
 - **Key Features**:
+  - **Dual-Mode Engine (Pod Mode & Self Mode)**: Pod Mode monitors your mutual creator circle for fresh posts; Self Mode sweeps your own posts for comments from peers and drafts nested replies to keep thread momentum alive.
   - **Zero Generic Fluff**: Never uses generic praise ("Great post", "Kudos"). Strictly 12 to 20 words per comment.
   - **Strictly Zero Emojis**: Clean, professional, high-density text that earns top-comment placement.
   - **Three Strategic Perspectives**:
