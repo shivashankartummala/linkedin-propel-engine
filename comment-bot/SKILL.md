@@ -38,7 +38,7 @@ Before running any sweeps or reading creator profiles, you MUST verify that your
 When instructed to "Check pod posts", "Run Propel sweep", or when triggered on a recurring schedule:
 
 1. **Load Pod Configuration**:
-   - Read `~/workspace/custom-skills/linkedin-propel-engine/members.json`.
+   - Read `members.json` from the `comment-bot` directory (e.g. `~/workspace/custom-skills/linkedin-propel-engine/comment-bot/members.json` or `./members.json`).
    - Identify `my_profile_url` and ignore this profile during sweeps (never comment on the user's own posts).
    - Extract the list of creator URLs in `members`.
 

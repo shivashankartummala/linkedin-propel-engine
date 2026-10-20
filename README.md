@@ -1,95 +1,119 @@
-# 🚀 LinkedIn Propel Engine (Muse Copilot Edition)
+# 🚀 LinkedIn Propel Engine
 
-> **Zero-Risk, 1-Reply Mutual Engagement Copilot for Creators & Leaders**
+> **The Unified Autonomous Inbound & Outbound Growth Suite for LinkedIn (Muse / Metamuse Edition)**
 
-LinkedIn Propel Engine is an autonomous engagement skill built for a private circle of 15–20 active LinkedIn creators running inside **Metamuse**.
-
-Instead of unpredictable auto-bots, Propel Engine implements a **Human-in-the-Loop 1-Click / 1-Reply Approval Model**:
-1. Muse monitors your pod members' latest posts using its authenticated browser session.
-2. Muse crafts **3 razor-sharp 12–20 word comment options** (strictly zero emojis, zero generic praise).
-3. Muse delivers the options directly into your chat with **tappable approval buttons** (`muse.create_options`).
-4. You simply **tap a button** (e.g. `Lee: POST 2`) or reply **`POST 1`**, **`POST 2`**, or **`POST 3`** (or type a custom edit).
-5. Muse executes the browser submission using a **strict human-mimicking DOM protocol** (natural dwell time, reading scroll, keystroke jitter, and proofreading pauses).
+`linkedin-propel-engine` is a modular, dual-engine LinkedIn automation suite designed for **Muse** (cloud-native autonomous agent) and **Metamuse**. It provides a 360-degree growth loop combining high-authority content publishing with targeted peer-pod engagement.
 
 ---
 
-## ⚡ The 1-Click / 1-Reply Engagement Loop
+## ⚡ Architecture & Dual-Engine Strategy
 
 ```
-1. Muse detects fresh post from pod member (<24h)
-2. Muse sends 3 comment options to chat + tappable buttons (muse.create_options)
-3. You tap the button: [Lee: POST 2] (or type "POST 1" in chat)
-4. Muse opens browser, simulates reading delay, types with keystroke jitter, and submits!
+                              +----------------------------+
+                              |      METAMUSE AGENT        |
+                              +----------------------------+
+                               /                          \
+                              /                            \
+                             v                              v
+            +-------------------------------+   +-------------------------------+
+            |        CO-AUTHOR BOT          |   |          COMMENT BOT          |
+            |     (Inbound Authority)       |   |      (Outbound Velocity)      |
+            +-------------------------------+   +-------------------------------+
+            | • Persona & Topic Parameterized|   | • Creator Pod Monitoring (<24h)|
+            | • Anti-AI Practitioner Voice  |   | • 3 Crisp Angles (12-20 words)|
+            | • 4 Hand-Drawn Visual Themes  |   | • Strictly Zero Emojis/Fluff  |
+            | • 5-Line Action CTA + SEO Tags|   | • 1-Click / 1-Reply Approval  |
+            | • Buffer.com API Integration  |   | • Anti-Bot DOM Typing Protocol|
+            +-------------------------------+   +-------------------------------+
+                             \                              /
+                              \                            /
+                               v                          v
+                        +----------------------------------------+
+                        |        TARGET: LINKEDIN PROFILE        |
+                        |  Scheduled Posts + Pod Post Engagement |
+                        +----------------------------------------+
+```
+
+1. **Inbound Engine (`co-author-bot/`)**: Establishes domain authority and attracts organic followers through recurring, deep technical series ("The Litmus Test") scheduled via Buffer.com.
+2. **Outbound Engine (`comment-bot/`)**: Multiplies feed visibility and profile visits through high-signal, anti-hype comments on target creators' posts using human-mimicking browser automation.
+
+---
+
+## 📁 Repository Structure
+
+```
+linkedin-propel-engine/
+├── README.md                   # Unified architecture & quickstart guide (this file)
+├── .gitignore                  # Global repository ignore rules
+├── co-author-bot/              # Track 1: Inbound Content Generation & Buffer Scheduler
+│   ├── README.md               # Detailed co-author documentation, templates & setup
+│   └── SKILL.md                # Muse agent skill specification & prompt codex
+└── comment-bot/                # Track 2: Outbound Pod Engagement & Browser Submitter
+    ├── README.md               # Detailed comment bot documentation & DOM protocol
+    ├── SKILL.md                # Muse agent skill specification & prompt codex
+    └── members.json            # Target creator pod list & configuration
 ```
 
 ---
 
-## 🤖 The Human-Mimicking Browser Protocol
+## 🛠️ The Sub-Agents at a Glance
 
-When you approve a comment via chat, Muse executes with strict anti-bot protections:
-1. **Dwell & Reading Simulation**: Pauses 15–25 seconds after page load with natural vertical scrolling to simulate reading.
-2. **Focus Delay**: Clicks comment box and pauses 2–3 seconds before typing.
-3. **Keystroke Jitter**: Types character by character with 25–50ms delays and natural micro-pauses between words (no instant string injection).
-4. **Proofreading Pause**: Waits 3–5 seconds after typing before moving to the submit button.
-5. **Post Verification**: Waits 4–6 seconds after clicking submit to confirm the comment rendered in the feed.
-
----
-
-## 🛠 Setup in Metamuse (30 Seconds)
-
-1. **Import this repository** into your Metamuse agent:
-   `https://github.com/shivashankartummala/linkedin-propel-engine`
-2. **Prerequisite: One-Time Interactive Login**:
-   - The first time Muse runs this skill (or if your session ever expires), Muse will automatically launch an interactive browser session at `https://www.linkedin.com/login` and hand control over to you.
-   - Simply take over the browser window, log in with your credentials, verify your home feed loads, and hand control back to Muse.
-   - Muse saves this persistent session permanently and immediately proceeds with the sweep!
-3. **Customize `members.json`**:
-   - Set `"my_profile_url"` to your own profile URL (so Muse never comments on your own posts).
-   - Add your 15–20 pod members to the `"members"` array.
+### 1. Co-Author Bot (`co-author-bot/`)
+- **Mission**: Acts as your personal ghostwriter and scheduler for 2-part technical LinkedIn series (Question days alternating with Answer Breakdown days).
+- **Key Features**:
+  - **Persona Parameterization**: Adapts to any role (Principal SRE Architect, Staff Data Engineer, Principal DBA, VP of Product, Cloud Security Lead).
+  - **Voice Guardrails**: Strict ban on AI clichés (`delve`, `unleash`, `testament`), zero parentheses `( )` to prevent API truncation, and authentic battle-tested engineering tone.
+  - **4 Signature Visual Themes**: Customizable graphic styles (Classic Yellow Legal Pad, Minimalist Muji Dot-Grid, Technical Blueprint, Executive College-Ruled).
+  - **Conversion Architecture**: Mandatory 5-line multi-action CTA block (Comment, Save, Repost, Announce, Follow) and 3-tier SEO hashtag formula (`#CreateImpact`).
+  - **Mandatory HITL Gate**: Pauses for explicit user review and approval before scheduling.
+  - **Buffer Integration**: Queues approved posts directly into Buffer (`POST /1/updates/create.json`).
+- **[👉 View Co-Author Bot Documentation](co-author-bot/README.md)**
 
 ---
 
-## 🛡️ Strict Commenting Rules (Enforced by Muse)
-
-- **Strictly Zero Emojis**: Absolutely no emojis (no rockets, smileys, thumbs up, etc.) inside the comments. Clean, pure professional prose only.
-- **Length**: Strictly 12 to 20 words per comment.
-- **Zero Generic Praise**: Never uses "Great post", "Kudos", "Totally agree", "Spot on", or "Well said".
-- **Zero Parentheses**: Never includes `(` or `)`.
-- **Three Strategic Angles**:
-  - **1️⃣ Pragmatic Architecture**: Production trade-offs and operational realities.
-  - **2️⃣ Contrarian Realist**: Grounded perspective puncturing corporate/AI hype.
-  - **3️⃣ Socratic Question**: Thoughtful question prompting the author to reply.
+### 2. Comment Bot (`comment-bot/`)
+- **Mission**: Monitors a private circle of 15–20 creators, identifies fresh posts (<24h), drafts 3 concise comment options, and submits upon your 1-reply approval.
+- **Key Features**:
+  - **Zero Generic Fluff**: Never uses generic praise ("Great post", "Kudos"). Strictly 12 to 20 words per comment.
+  - **Strictly Zero Emojis**: Clean, professional, high-density text that earns top-comment placement.
+  - **Three Strategic Perspectives**:
+    - *Angle 1 (Pragmatic Architecture)*: Operational realities and production trade-offs.
+    - *Angle 2 (Contrarian Realist)*: Punctures corporate or AI hype.
+    - *Angle 3 (Socratic Question)*: Compels the author to respond and drives comment thread velocity.
+  - **1-Click Tappable Buttons**: Integrates with `muse.create_options` for 1-tap mobile approval or 1-reply text (`POST 1`, `POST 2`, `POST 3`).
+  - **Human-Mimicking Browser DOM Protocol**: Anti-bot protections with natural reading dwell times (15–25s), typing delays (25–50ms jitter), and proofreading pauses.
+- **[👉 View Comment Bot Documentation](comment-bot/README.md)**
 
 ---
 
-## 📋 Example Chat Interaction
+## 🚀 Quickstart: Setting Up in Metamuse
 
-```markdown
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📢 POD ALERT: MADHAN VADLAMUDI (Today)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 Post Hook / Topic:
-"Breaking down monolithic architectures too early creates network overhead..."
-
-🔗 [👉 View Post on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7251...)
-
-💡 Proposed Comment Options (12–20 Words | No Emojis):
-
-1️⃣ Pragmatic Architecture [18 words]
-Solid operational point here. Scaling this in production always comes down to disciplined team execution and clear ownership.
-
-2️⃣ Contrarian Realist [18 words]
-The real bottleneck was never raw execution speed - it has always been reviewing and maintaining untrusted diffs.
-
-3️⃣ Socratic Question [16 words]
-How is your team handling boundary validation when unexpected edge cases hit production under peak traffic?
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👉 How to Publish:  
-• **Tap a button below** to post that comment instantly (one tap per comment).
-• Or reply `POST 1`, `POST 2`, or `POST 3` (e.g. `Lee: POST 2`), or type a custom edit.
+### Step 1: Import the Repository
+In Metamuse / Muse, import this repository:
+```
+https://github.com/shivashankartummala/linkedin-propel-engine.git
 ```
 
-When you tap **`Lee: POST 1`** (or reply **`POST 1`**), Muse replies:
-> ✅ **Successfully published to Madhan Vadlamudi's post!**  
-> 💬 *"Solid operational point here. Scaling this in production always comes down to disciplined team execution and clear ownership."*  
-> 🔗 [Open Post on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7251...)
+### Step 2: Configure Co-Author Bot (`co-author-bot/`)
+1. Obtain your Buffer Access Token from [buffer.com/developers/api](https://buffer.com/developers/api).
+2. Connect your LinkedIn profile or page inside Buffer.
+3. Provide the token during Muse's interactive onboarding gate.
+4. Select your persona, posting cadence, and signature visual theme (1–4).
+
+### Step 3: Configure Comment Bot (`comment-bot/`)
+1. Complete the one-time interactive login at `https://www.linkedin.com/login` when prompted by Muse.
+2. Edit [`comment-bot/members.json`](comment-bot/members.json):
+   - Set `"my_profile_url"` to your own profile URL.
+   - Populate the `"members"` array with the profile URLs of the creators in your mutual engagement pod.
+
+---
+
+## 🔒 Safety, Security & Compliance
+- **100% Human-in-the-Loop**: Neither bot will ever publish content or submit comments without your explicit approval.
+- **Credential Hygiene**: Access tokens are kept in environment variables or private agent storage; never commit API tokens or browser cookies.
+- **Rate-Limiting & Anti-Bot Awareness**: Both bots adhere to conservative schedules and realistic human dwell times to keep your account safe.
+
+---
+
+## 📄 License
+MIT License. Built for creators and leaders running on Metamuse.
