@@ -24,6 +24,26 @@ Instead of unpredictable auto-bots, Propel Engine implements a **Human-in-the-Lo
 
 ---
 
+## 💬 How to Invoke
+
+Everything runs from plain chat messages — no CLI, nothing to configure after setup:
+
+| Say this | What happens |
+|---|---|
+| `run propel sweep` | **Pod Mode** — Muse scans all pod members for posts from the last 24 hours and sends one POD ALERT card per fresh post. |
+| `run self sweep` | **Self Mode** — Muse scans your own posts from the last 3 days for comments you haven't replied to and sends one REPLY ALERT card per unanswered comment. |
+| Tap `POST 1` / `POST 2` / `POST 3` under a card | Approves that exact comment (or reply) and posts it via the browser with human pacing. |
+| `Lee: POST 2` (typed) | The same approval in text form — creator name + option number. Sending your own edited comment text works too. |
+| `done` or `skip rest` | Ends the current queue; untapped options are dropped. |
+| `add <profile URL or name> to the pod` | Adds a creator to `members.json` (name matches are confirmed with you before saving). |
+| `remove <name> from the pod` | Removes a creator from `members.json`. |
+| `set delay <seconds>` | Configures dwell delay before reading and typing simulation (default: 15s). |
+| `set retry limit <N>` | Configures maximum retry attempts for DOM element discovery and submission (default: 3). |
+
+First run with an empty `members.json`? Just say `run propel sweep` — Muse runs the guided setup first (your own profile URL + your pod list), then sweeps.
+
+---
+
 ## 🪞 Self Mode: Never Miss a Comment on Your Own Posts
 
 Run **`run self sweep`** and Muse flips the lens:
@@ -58,9 +78,9 @@ When you approve a comment via chat, Muse executes with strict anti-bot protecti
    - The first time Muse runs this skill (or if your session ever expires), Muse will automatically launch an interactive browser session at `https://www.linkedin.com/login` and hand control over to you.
    - Simply take over the browser window, log in with your credentials, verify your home feed loads, and hand control back to Muse.
    - Muse saves this persistent session permanently and immediately proceeds with the sweep!
-3. **Customize `members.json`**:
-   - Set `"my_profile_url"` to your own profile URL (so Muse never comments on your own posts).
-   - Add your 15–20 pod members to the `"members"` array.
+3. **Pod roster (`members.json`)**:
+   - On first run you don't need to edit anything by hand — Muse walks you through it: it asks for your own LinkedIn profile URL, then collects the creators you want in your pod (URLs or names; name matches are confirmed with you before saving) and writes `members.json` for you.
+   - Anytime after that, just say "add <profile> to the pod" or "remove <name> from the pod" in chat, or edit `members.json` directly: set `"my_profile_url"` to your own profile URL (so Muse never comments on your own posts) and keep pod members in the `"members"` array (up to 20).
 
 ---
 
